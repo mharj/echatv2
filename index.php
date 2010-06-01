@@ -11,7 +11,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=Edge" >
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="jquery-timers.js"></script>
 		<title>EChat</title>
@@ -23,7 +23,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 		<script type="text/javascript" src="ext_js/json_encode.js"></script>
 		<script type="text/javascript" src="ext_js/i18n_loc_get_default.js"></script>
 		<script type="text/javascript" src="ext_js/sort.js"></script>
-		<link rel="Shortcut Icon" href="http://www.ushrakhan.com/favicon.ico">
+		<link rel="Shortcut Icon" href="http://www.ushrakhan.com/favicon.ico" />
 	</head>
 	<body>
 		<table id='tbody'>
@@ -36,7 +36,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 		<tr><td id='channel_container'>
 		</td>
 		</tr>
-                <tr><td colspan='2' id='write_container'><table style='width: 100%;'><td style='width: 2em;'><input class='button' type=button id=send value=send /></td><td><input id='msg' type=text style='width: 100%' /></td></table></td></tr>
+                <tr><td colspan='2' id='write_container'><table style='width: 100%;'><tr><td style='width: 2em;'><input class='button' type=button id=send value=send /></td><td><input id='msg' type=text style='width: 100%' /></td></tr></table></td></tr>
 		</table>
 		<div id='toggle_title'>_</div>
 		<div id='toggle_userlist'>_</div>
