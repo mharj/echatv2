@@ -1,7 +1,7 @@
 this requires:
 - mysql database
 - memcached
-- php and modules for memcache and mysql
+- php5 and modules for memcache and mysql
 
 INSTALL
 create database and create db_setting.php from template file
