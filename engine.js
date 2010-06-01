@@ -93,8 +93,11 @@ function pulseengine() {
 					{
 						var c=json.msg[i];
 						var cid="#channel_"+c.ch;
-						if ( c.m )
+						if ( c.m ) {
 							$(cid).append(c.d+' ['+c.a+'] ('+c.c+') '+c.f+'> '+c.m+'<br/>');
+							if ( ! init && c.ch != myAnchor )	
+								$('#tab_'+c.ch).addClass('activitytab');
+						}
 					}
 					// scroll down channel
 					var name='#channel_'+myAnchor;
@@ -177,6 +180,7 @@ function show_tab() {
 	$('#channel_'+myAnchor).show();
 	$('#userlist_'+myAnchor).show();
 	$('.change_tab').removeClass('activetab');
+	$('#tab_'+myAnchor).removeClass('activitytab');
 	$('#tab_'+myAnchor).addClass('activetab');	
 }
 

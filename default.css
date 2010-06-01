@@ -185,6 +185,9 @@ SELECT {
 .activetab {
 	background-color: #339;
 }
+.activitytab {
+        background-color: #933;
+}
 
 .uc_o_container {
 	width: 220px;
