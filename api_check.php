@@ -1,4 +1,5 @@
 <?php
+	require('db_settings.php');
 	if ( isset($_REQUEST['apiuser']) && ! empty($_REQUEST['apiuser'])  && isset($_REQUEST['apikey']) && ! empty($_REQUEST['apikey']) ) {
 		$api_id=trim($_REQUEST['apiuser']);
 		$api_key=trim($_REQUEST['apikey']);
@@ -64,7 +65,7 @@
 				exit;
 			}
 			$ok=false;
-			$mysqli = new mysqli('localhost', 'mysql_user', 'haxor', 'echat');
+			$mysqli = new mysqli($db_server,$db_user,$db_pass,$database);
 			if (mysqli_connect_error()) {
 				die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
 			}

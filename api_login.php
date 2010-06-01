@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require('db_settings.php');
 	function stmt_bind_assoc (&$stmt, &$out) {
 		$data = mysqli_stmt_result_metadata($stmt);
 		$fields = array();
@@ -15,7 +16,7 @@
 		call_user_func_array('mysqli_stmt_bind_result', $fields);
 	}
 	// mysql
-	$mysqli = new mysqli('localhost', 'mysql_user', 'haxor', 'echat');
+	$mysqli = new mysqli($db_server,$db_user,$db_pass,$database);
 	if (mysqli_connect_error()) {
 		die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());	
 	}
