@@ -122,6 +122,7 @@ function pulseengine() {
 								}
 							}
 						}
+						resize_text();
 					}
 					// del
 					if ( json.usr.d ) {
@@ -138,6 +139,7 @@ function pulseengine() {
 								}
 							}
 						}
+						resize_text();
 					}
 					// modify
 					if ( json.usr.m ) {

@@ -102,7 +102,7 @@
 			'ally_name'=>$u['ally_name'],
 			'ch'=>$my_channels
 		);
-		$memcache->set('ec_charID_'.$u['charID'],$public,0,15);
+		$memcache->set('ec_charID_'.$u['charID'],$public,0,60);
 		// drop old members
 		$mod=false;
 		foreach ( $users AS $k=>$u ) {
