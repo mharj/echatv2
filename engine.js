@@ -4,6 +4,11 @@ var users=new Array();
 var lock=false;
 var user_crc32='';
 
+var urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+//data.msg[i].msg = data.msg[i].msg.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+
+
 function update_user_crc() {
 	// clean undefined entries
 	var rebuild=new Array();
@@ -94,6 +99,7 @@ function pulseengine() {
 						var c=json.msg[i];
 						var cid="#channel_"+c.ch;
 						if ( c.m ) {
+							c.m = c.m.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
 							$(cid).append(c.d+' ['+c.a+'] ('+c.c+') '+c.f+'> '+c.m+'<br/>');
 							document.title = 'EChat - '+c.d+' #'+c.ch+' '+c.f;
 							if ( ! init && c.ch != myAnchor )	
