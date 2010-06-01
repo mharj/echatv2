@@ -95,6 +95,7 @@ function pulseengine() {
 						var cid="#channel_"+c.ch;
 						if ( c.m ) {
 							$(cid).append(c.d+' ['+c.a+'] ('+c.c+') '+c.f+'> '+c.m+'<br/>');
+							document.title = 'EChat - '+c.d+' #'+c.ch+' '+c.f;
 							if ( ! init && c.ch != myAnchor )	
 								$('#tab_'+c.ch).addClass('activitytab');
 						}
