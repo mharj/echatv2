@@ -1,0 +1,9 @@
+this requires:
+- mysql database
+- memcached
+- php and modules for memcache and mysql
+
+INSTALL
+create database and create db_setting.php from template file
+use create_db.sql to build empty user table to echat database.
+create system to dump AllianceList.xml.aspx daily to echatv2 directory.
