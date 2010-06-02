@@ -208,7 +208,10 @@ function show_tab() {
 	$('#userlist_'+myAnchor).show();
 	$('.change_tab').removeClass('activetab');
 	$('#tab_'+myAnchor).removeClass('activitytab');
-	$('#tab_'+myAnchor).addClass('activetab');	
+	$('#tab_'+myAnchor).addClass('activetab');
+        $(document).oneTime(100, function(i) {
+		$("#msg").focus();
+        });
 }
 
 $(document).ready(function() {
@@ -281,6 +284,7 @@ $(document).ready(function() {
 	$("#send").click( function() {
 		send_msg();
 	});
+	$("#msg").focus();
 	$("#msg").live('keydown', function(e) {
 		// submit from enter
 		if ( e.keyCode == '13' ) {
