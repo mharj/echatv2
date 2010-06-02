@@ -101,12 +101,12 @@
 			$memcache->set('ec_users',$current_users,0,86400);
 		}
 		// auto afk hook
-		if ( isset($_REQUEST['i']) && $_REQUEST['i'] == 'true' && $u['led'] != 'yellow' ) {
+/*		if ( isset($_REQUEST['i']) && $_REQUEST['i'] == 'true' && $u['led'] != 'yellow' ) {
 			$u['status']="is on autopilot since ".date('H:i:s');
 			$u['led']='yellow';
 			$_SESSION['user']['led']=$u['led'];
 			$_SESSION['user']['status']=$u['status'];
-		}
+		}*/
 
 		$public=array(
 			'charID'=>$u['charID'],
