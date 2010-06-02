@@ -192,7 +192,7 @@ function send_msg() {
 	$.ajax({
 		type: "POST",
 		url: "send.php",
-		data: "msg="+$("#msg").val()+"&chan="+myAnchor,
+		data: "msg="+escape($("#msg").val())+"&chan="+myAnchor,
 		dataType: "json",
 		timeout: 10000,
 		success: function(json) {
