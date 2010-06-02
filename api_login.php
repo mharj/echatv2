@@ -45,12 +45,13 @@
 	if ( isset($user['ally_name']) && ! empty($user['ally_name']) )
 		$_SESSION['my_channels']['alliance']=$user['ally_name'];
 	$_SESSION['my_channels']['dev']='dev';
-
+#	$_SESSION['my_channels']['priv']=$user['charID'];
 
 	$_SESSION['user']=$user;
 	if ( isset($_SERVER['HTTP_EVE_TRUSTED']) ) // i=IGB // o=OOG browser
 		$_SESSION['user']['b']='i';
 	else
-		$_SESSION['user']['b']='o';	
+		$_SESSION['user']['b']='o';
+	$_SESSION['user']['led']='green';	
 	echo json_encode(array('status'=>'ok') );
 ?>

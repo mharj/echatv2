@@ -3,6 +3,9 @@ var myAnchor='';
 var users=new Array();
 var lock=false;
 var user_crc32='';
+var pulse_tick=1;
+var count_tick=0;
+var my_self;
 
 var urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 //data.msg[i].msg = data.msg[i].msg.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
@@ -19,6 +22,12 @@ function update_user_crc() {
 	users=rebuild;
 	sort(users);
 	user_crc32=crc32(json_encode(users));
+	
+	pulse_tick=1;
+	if ( my_self.led == 'yellow' )
+		pulse_tick=5;
+	if ( my_self.led == 'blue' )
+		pulse_tick=10;
 }
 
 function resize_text() {
@@ -55,11 +64,11 @@ function update_serverstatus(status) {
 		$("#server_status").html("Tranquility: <em style='color: red;'>Offline</em>");
 }
 function add_user(ch,c) {
-	$("#userlist_"+ch).append('<div class="cid_'+c.charID+' uc_o_container"><div class="uc_i_container"><div class="uc_image"><img src="http://img.eve.is/serv.asp?s=64&c='+c.charID+'" width=32 height=32></div><div class="uc_name">'+c.ally_name+' '+c.corp_name+' '+c.username+'</div><div class="uc_status"></div></div></div>');	
+	$("#userlist_"+ch).append('<div class="cid_'+c.charID+' uc_o_container"><div class="uc_i_container browser_'+c.b+'"><div class="uc_image"><img src="http://img.eve.is/serv.asp?s=64&c='+c.charID+'" width=32 height=32></div><div class="uc_name"><a href="https://gate.eveonline.com/Profile/'+c.username+'" target="_blank">'+c.ally_name+' '+c.corp_name+' '+c.username+'</a><br/><i>'+c.status+'</i></div><div class="uc_status_'+c.led+'"></div></div></div>');	
 }
 
 function modify_user(c) {
-	$(".cid_"+c.charID).html('<div class="uc_i_container"><div class="uc_image"><img src="http://img.eve.is/serv.asp?s=64&c='+c.charID+'" width=32 height=32></div><div class="uc_name">'+c.ally_name+' '+c.corp_name+' '+c.username+'</div><div class="uc_status"></div></div>');	
+	$(".cid_"+c.charID).html('<div class="uc_i_container browser_'+c.b+'"><div class="uc_image"><img src="http://img.eve.is/serv.asp?s=64&c='+c.charID+'" width=32 height=32></div><div class="uc_name"><a href="https://gate.eveonline.com/Profile/'+c.username+'" target="_blank">'+c.ally_name+' '+c.corp_name+' '+c.username+'</a><br/><i>'+c.status+'</i></div><div class="uc_status_'+c.led+'"></div></div>');	
 }
 //
 // TODO 
@@ -100,10 +109,14 @@ function pulseengine() {
 						var cid="#channel_"+c.ch;
 						if ( c.m ) {
 							c.m = c.m.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
-							$(cid).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
-							document.title = 'EChat - '+c.d+' #'+c.ch+' '+c.f;
-							if ( ! init && c.ch != myAnchor )	
-								$('#tab_'+c.ch).addClass('activitytab');
+							if ( c.ch == c.cid ) {
+								$("#channel_"+myAnchor).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
+							} else {
+								$(cid).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
+								document.title = 'EChat - '+c.d+' #'+c.ch+' '+c.f;
+								if ( ! init && c.ch != myAnchor )	
+									$('#tab_'+c.ch).addClass('activitytab');
+							}
 						}
 					}
 					// scroll down channel
@@ -116,7 +129,8 @@ function pulseengine() {
 					// full clear if crc23 not match or empty
 					if ( json.usr.clear )
 						users=new Array();
-
+					if ( json.usr.self )
+						my_self=json.usr.self;
 					// add
 					if ( json.usr.a ) {
 						for ( var i in json.usr.a) {
@@ -154,6 +168,11 @@ function pulseengine() {
 					// modify
 					if ( json.usr.m ) {
 						for ( var i in json.usr.m) {
+							var cid=json.usr.m[i];
+							for ( var j in users ) {
+								if ( users[j].charID == cid.charID )
+									users[j]=cid;
+							}
 							modify_user(json.usr.m[i]);
 						}
 					}
@@ -169,6 +188,7 @@ function pulseengine() {
 	});
 }
 function send_msg() {
+	pulse_tick=1;
 	$.ajax({
 		type: "POST",
 		url: "send.php",
@@ -220,8 +240,12 @@ $(document).ready(function() {
 	// pulse
 	pulseengine(); // once
 	$(document).everyTime(1000, function(i) {
-		if ( ! lock ) 
-			pulseengine();
+		count_tick++;
+		if ( count_tick >= pulse_tick ) {
+			count_tick=0;
+			if ( ! lock ) 
+				pulseengine();
+		}
 	});
 //	pulseengine();
 	

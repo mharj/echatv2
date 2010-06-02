@@ -12,6 +12,11 @@
 	if ( isset( $_SESSION['ucrc'] ) )
 		$session_crc32=$_SESSION['ucrc'];
 	$u=$_SESSION['user'];
+	
+	// online variables // delete this when all users latest version
+	if ( ! isset($u['status']) )	$u['status']='';
+	if ( ! isset($u['led']) )		$u['led']='green';
+
 	$my_channels=array();
 	$force_update=false;
 	foreach ( $channels AS $k => $v )
@@ -100,14 +105,17 @@
 			'username'=>$u['username'],
 			'corp_name'=>$u['corp_name'],
 			'ally_name'=>$u['ally_name'],
-			'ch'=>$my_channels
+			'b'=>$u['b'],
+			'ch'=>$my_channels,
+			'status'=>$u['status'],
+			'led'=>$u['led'],
 		);
 		$memcache->set('ec_charID_'.$u['charID'],$public,0,60);
 		// drop old members
 		$mod=false;
-		foreach ( $users AS $k=>$u ) {
-			if ( ! empty($u) && is_numeric($u) ) {
-				$test=$memcache->get('ec_charID_'.$u);
+		foreach ( $users AS $k=>$lu ) {
+			if ( ! empty($lu) && is_numeric($lu) ) {
+				$test=$memcache->get('ec_charID_'.$lu);
 				if ( empty($test) ) {
 					$mod=true;
 					unset($users[$k]);
@@ -130,6 +138,7 @@
 		global $json;
 		global $my_channels;
 		global $force_update;
+		global $u;
 		if ( ! isset($_SESSION['ec_users']) ) {
 			$_SESSION['ec_users']=array();
 		}
@@ -145,6 +154,7 @@
 				}
 				sort($data['ch']);			
 				$user_data[]=$data;
+				$session_data[$user]=$data;
 			}
 		}
 		sort($user_data);
@@ -188,10 +198,15 @@
 								unset($data['ch'][$k]);
 						}
 						sort($data['ch']);
-						$json['usr']['m'][]=$data;
+						if ( json_encode($data) != json_encode($_SESSION['user_data'][$user]) ) 
+							$json['usr']['m'][]=$data;
 					}
 				}				
 			}
+			if ( isset($json['usr']))
+				$json['usr']['self']=$u;
+				
+			$_SESSION['user_data']=$session_data;
 		}	
 	}
 
@@ -229,6 +244,10 @@
 	// check users
 	check_users();
 
+	// add my charID to listen channel
+	if ( isset($_SESSION['user']['charID']) ) {
+		$channels['priv']=$_SESSION['user']['charID'];
+	}
 	// read channels
 	foreach ( $channels AS $k=>$ch )
 		read_channel(strtolower($ch));
@@ -236,6 +255,7 @@
 	$_SESSION['ec_users']=$current_users;	
 	
 	// output
-	if ( isset($json) )
+	if ( isset($json) ) 
 		echo json_encode($json);
+	
 ?>

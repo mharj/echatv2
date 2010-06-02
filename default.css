@@ -29,6 +29,12 @@ SELECT {
 	border: 1px solid #535353;
 	font-size: 11px;
 }
+
+a:link {text-decoration: none;}
+a:visited {text-decoration: none;}
+a:hover {text-decoration: none;}
+a:active {text-decoration: none;}
+
 #tbody {
 	width: 100%;
 	height: 100%;
@@ -227,4 +233,44 @@ SELECT {
 	height: 6px;
 	background-color: green;
 	margin: 3px;
+}
+.uc_status_green {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 6px;
+	height: 6px;
+	background-color: #00ff00;
+	border: 1px solid #008800;
+	margin: 3px;
+}
+.uc_status_yellow {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 6px;
+	height: 6px;
+	background-color: #ffff00;
+	border: 1px solid #888800;
+	margin: 3px;
+}
+.uc_status_blue {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 6px;
+	height: 6px;
+	background-color: #8888ff;
+	border: 1px solid #4444ff;
+	margin: 3px;
+}
+.browser_i {
+	background-image: url('eo_logo.png');
+	background-repeat: no-repeat;
+	background-position: right 80%;
+}
+
+#channel_container A {
+	color: yellow;
+	font-weight:bold;
 }
