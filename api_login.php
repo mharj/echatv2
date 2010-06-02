@@ -52,6 +52,7 @@
 		$_SESSION['user']['b']='i';
 	else
 		$_SESSION['user']['b']='o';
-	$_SESSION['user']['led']='green';	
+	$_SESSION['user']['led']='green';
+	$_SESSION['user']['status']='';
 	echo json_encode(array('status'=>'ok') );
 ?>

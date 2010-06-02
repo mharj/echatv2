@@ -6,6 +6,7 @@ var user_crc32='';
 var pulse_tick=1;
 var count_tick=0;
 var my_self;
+var idle=false;
 
 var urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 //data.msg[i].msg = data.msg[i].msg.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
@@ -80,7 +81,7 @@ function pulseengine() {
 	$.ajax({
 		type: "POST",
 		url: "pulse.php",
-		data: "init="+init+"&ucrc="+user_crc32,
+		data: "i="+idle+"&init="+init+"&ucrc="+user_crc32,
 		dataType: "json",
 		timeout: 10000,				// 10sec timeout
 		success: function(json) {
@@ -293,4 +294,13 @@ $(document).ready(function() {
 					send_msg();
 		}			
 	});	
+
+	$.idleTimer(3600000); // 60min
+	$(document).bind("idle.idleTimer", function(){
+		idle=true;
+	});
+	$(document).bind("active.idleTimer", function(){
+		idle=false;
+	});
+
 });

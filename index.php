@@ -14,6 +14,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="jquery-timers.js"></script>
+		<script type="text/javascript" src="idle-timer.js"></script>
 		<title>EChat</title>
 		<link href="reset-min.css" rel="stylesheet" type="text/css" />
 		<link href="default.css" rel="stylesheet" type="text/css" />

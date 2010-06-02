@@ -15,7 +15,7 @@
 	
 	// online variables // delete this when all users latest version
 	if ( ! isset($u['status']) )	$u['status']='';
-	if ( ! isset($u['led']) )		$u['led']='green';
+	if ( ! isset($u['led']) )	$u['led']='green';
 
 	$my_channels=array();
 	$force_update=false;
@@ -100,6 +100,14 @@
 			sort($current_users);
 			$memcache->set('ec_users',$current_users,0,86400);
 		}
+		// auto afk hook
+		if ( isset($_REQUEST['i']) && $_REQUEST['i'] == 'true' && $u['led'] != 'yellow' ) {
+			$u['status']="is on autopilot since ".date('H:i:s');
+			$u['led']='yellow';
+			$_SESSION['user']['led']=$u['led'];
+			$_SESSION['user']['status']=$u['status'];
+		}
+
 		$public=array(
 			'charID'=>$u['charID'],
 			'username'=>$u['username'],
@@ -198,7 +206,7 @@
 								unset($data['ch'][$k]);
 						}
 						sort($data['ch']);
-						if ( json_encode($data) != json_encode($_SESSION['user_data'][$user]) ) 
+						if (! isset($_SESSION['user_data'][$user]) ||  json_encode($data) != json_encode($_SESSION['user_data'][$user]) ) 
 							$json['usr']['m'][]=$data;
 					}
 				}				
@@ -214,7 +222,7 @@
 	date_default_timezone_set('UTC');
 	$memcache = new Memcache;
 	$memcache->pconnect('localhost', 11211) or die ("Could not connect");
-	
+
 	// Server Status
 	$ss=$memcache->get('eve_server_status');
 	if ( empty($ss) )
@@ -253,7 +261,7 @@
 		read_channel(strtolower($ch));
 	// save userlist to session
 	$_SESSION['ec_users']=$current_users;	
-	
+
 	// output
 	if ( isset($json) ) 
 		echo json_encode($json);
