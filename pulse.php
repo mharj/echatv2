@@ -107,6 +107,12 @@
 			$_SESSION['user']['led']=$u['led'];
 			$_SESSION['user']['status']=$u['status'];
 		}*/
+		$backend=$memcache->get('ec_charID_'.$u['charID']);
+		if ( ! empty($backend) ) {
+			foreach ( $backend AS $k => $v ) {
+				$u[$k]=$v;
+			}
+		}
 
 		$public=array(
 			'charID'=>$u['charID'],
@@ -119,6 +125,8 @@
 			'led'=>$u['led'],
 		);
 		$memcache->set('ec_charID_'.$u['charID'],$public,0,60);
+		// update session		
+		$_SESSION['user']=$u;
 		// drop old members
 		$mod=false;
 		foreach ( $users AS $k=>$lu ) {

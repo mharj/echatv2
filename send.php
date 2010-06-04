@@ -15,18 +15,29 @@
 	if ( in_array($_REQUEST['chan'],$my_channels) )
 	{
 		// slash commands
-		$_SESSION['user']['status']='';
-		$_SESSION['user']['led']='green';
-		
+		$backend=$memcache->get('ec_charID_'.$u['charID']);
+		$update=false;
+		if ( $backend['led'] != 'green' ) { 
+			$backend['status']='';
+			$backend['led']='green';
+			$update=true;
+		}		
 		// afk
 		if ( preg_match("/^\/afk(.*?)$/",$_REQUEST['msg'],$match) ) {
-			$_SESSION['user']['status']=htmlspecialchars(trim($match[1]));
-			$_SESSION['user']['led']='yellow';
+			$backend['status']=htmlspecialchars(trim($match[1]));
+			$backend['led']='yellow';
+			$update=true;
 		}
 
 		if ( preg_match("/^\/sleep.*?$/",$_REQUEST['msg']) ) {
-			$_SESSION['user']['status']='ZZZzzz...';
-			$_SESSION['user']['led']='blue';
+			$backend['status']='ZZZzzz...';
+			$backend['led']='blue';
+			$update=true;
+		}
+
+		// update backend
+		if ( $update ) {
+			$memcache->set('ec_charID_'.$u['charID'],$backend,0,60);
 		}
 		
 		// priv msg (send msg to self and taget "channels")
