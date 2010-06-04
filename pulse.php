@@ -3,6 +3,7 @@
 	session_start();
 	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+	require('version.php');
 	if (! isset( $_SESSION['user'] ) ) {
 		echo "SESSION LOST";
 		exit;
@@ -269,6 +270,11 @@
 		read_channel(strtolower($ch));
 	// save userlist to session
 	$_SESSION['ec_users']=$current_users;	
+
+	// add version lock	
+	if (  $lock != $_REQUEST['v'] ) {
+		$json['ver_lock']=$lock;
+	}
 
 	// output
 	if ( isset($json) ) 

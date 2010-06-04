@@ -7,6 +7,7 @@ var pulse_tick=1;
 var count_tick=0;
 var my_self;
 var idle=false;
+var js_lock=false;
 
 var urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 //data.msg[i].msg = data.msg[i].msg.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
@@ -81,11 +82,18 @@ function pulseengine() {
 	$.ajax({
 		type: "POST",
 		url: "pulse.php",
-		data: "i="+idle+"&init="+init+"&ucrc="+user_crc32,
+		data: "i="+idle+"&init="+init+"&ucrc="+user_crc32+"&v="+ver_lock,
 		dataType: "json",
 		timeout: 10000,				// 10sec timeout
 		success: function(json) {
 			if ( json ) {
+				// js version lock
+				if ( json.ver_lock ) {
+					if ( json.ver_lock != ver_lock ) { 
+						alert('reload application');
+						js_lock=true;
+					}
+				}
 				// server status
 				if ( json.ss )
 					update_serverstatus( json.ss );
@@ -247,14 +255,16 @@ $(document).ready(function() {
 		count_tick++;
 		if ( count_tick >= pulse_tick ) {
 			count_tick=0;
-			if ( ! lock ) 
-				pulseengine();
+			if ( ! js_lock ) {
+				if ( ! lock ) 
+					pulseengine();
+			}
 		}
 	});
 //	pulseengine();
 	
 	$("#pulse").click( function() {
-		if ( ! lock ) 
+		if ( ! lock  ) 
 			pulseengine();
 	});
 	

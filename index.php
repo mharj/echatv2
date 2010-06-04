@@ -5,6 +5,7 @@
 		header("Location: login.php") ;
 		exit;
 	}
+	require('version.php');
 echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 <!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -25,6 +26,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 		<script type="text/javascript" src="ext_js/i18n_loc_get_default.js"></script>
 		<script type="text/javascript" src="ext_js/sort.js"></script>
 		<link rel="Shortcut Icon" href="http://www.ushrakhan.com/favicon.ico" />
+		<script type="text/javascript">
+			var ver_lock='<?php echo $lock;?>';
+		</script>
 	</head>
 	<body>
 		<table id='tbody'>
