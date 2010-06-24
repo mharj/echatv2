@@ -72,6 +72,22 @@ function add_user(ch,c) {
 function modify_user(c) {
 	$(".cid_"+c.charID).html('<div class="uc_i_container browser_'+c.b+'"><div class="uc_image"><img src="http://img.eve.is/serv.asp?s=64&c='+c.charID+'" width=32 height=32></div><div class="uc_name"><a href="https://gate.eveonline.com/Profile/'+c.username+'" target="_blank">'+c.ally_name+' '+c.corp_name+' '+c.username+'</a><br/><i>'+c.status+'</i></div><div class="uc_status_'+c.led+'"></div></div>');	
 }
+
+function tab_fill () {
+        var msg=$("#msg").val().split(' ');
+        var last=msg[msg.length-1];
+        re = new RegExp('^'+last,'i');
+        for ( var i in users )
+        {
+                if ( users[i].username.match(re) )
+                {
+                        var out= $("#msg").val().replace( new RegExp(last+'$','i') ,users[i].username);
+                        $("#msg").val(out);
+                        return;
+                }
+        } 
+}
+
 //
 // TODO 
 // - error: if timeout
@@ -305,7 +321,12 @@ $(document).ready(function() {
 			e.preventDefault();
 			if ( $("#msg").val().length > 0 ) 
 					send_msg();
-		}			
+		}	
+		// tab filling names
+		if (e.keyCode == 9) {
+			e.preventDefault();
+			tab_fill();
+		}
 	});	
 
 	$.idleTimer(3600000); // 60min
