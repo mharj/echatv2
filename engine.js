@@ -83,6 +83,7 @@ function tab_fill () {
                 {
                         var out= $("#msg").val().replace( new RegExp(last+'$','i') ,users[i].username);
                         $("#msg").val(out);
+			$("#msg").focus();			
                         return;
                 }
         } 
