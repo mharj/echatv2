@@ -31,7 +31,7 @@
 		echo json_encode(array('status'=>'error','error'=>'account not found'));
 		exit;
 	}	
-	if ( $user['password'] != md5($_POST['password']) )
+	if ( $user['password'] != $_POST['password'] )
 	{
 		echo json_encode(array('status'=>'error','error'=>'wrong password'));
 		exit;

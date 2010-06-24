@@ -1,11 +1,21 @@
 var touch=false;
 
 function send_auth() {
+	var pwd=$("input[name=password]").val();
+	// we md5 if not md5 already
+	if ( pwd.length != 32 ) {
+		pwd=md5(pwd);
+	}
+
+	if ( $("#save_cookie").is(':checked') ) {
+		$.cookie("user_login", $("input[name=username]").val() );
+		$.cookie("user_password", pwd );
+	}
 	$("#login_window").fadeOut('fast',function() {
 		$.ajax({
 			type: "POST",
 			url: "api_login.php",
-			data: "username="+$("input[name=username]").val()+"&password="+$("input[name=password]").val(),
+			data: "username="+$("input[name=username]").val()+"&password="+pwd,
 			dataType: "json",
 			timeout: 10000,
 			success: function(json){
@@ -41,7 +51,12 @@ $(document).ready(function() {
 	});
 	$("#login_window").hide();
 	// test what we really have working JQuery
-	$("#login_window").html("<input type='text' name='username' value='Char name' style='width:80px' onFocus='$(this).val(\"\");'/> <input type='password' name='password' value='' style='width: 80px' /> <input class='button' type='button' value='Login'style='width: 40px' onClick='send_auth()' /><input class='button' type=button value='Create Account' onClick='to_create();'/>");
+	$("#login_window").html("<input type='text' name='username' value='Char name' style='width:80px' onFocus='$(this).val(\"\");'/> <input type='password' name='password' value='' style='width: 80px' /> <input class='button' type='button' value='Login'style='width: 40px' onClick='send_auth()' /><br/><input id='save_cookie' type=checkbox>:Save <input class='button' type=button value='Create Account' onClick='to_create();'/>");
 	$("#login_window").fadeIn('fast');
-
+	if ( $.cookie("user_login") ) {
+		$("input[name=username]").val($.cookie("user_login"));
+	}
+	if ( $.cookie("user_password") ) {
+		$("input[name=password]").val($.cookie("user_password"));
+	}
 });

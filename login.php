@@ -9,6 +9,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n"?>
 	<head>
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="jquery-timers.js"></script>
+		<script type="text/javascript" src="jquery.cookie.js"></script>
+		<script type="text/javascript" src="utf8_encode.js"></script>
+		<script type="text/javascript" src="md5.js"></script>
 		<title>EChat</title>
 		<link href="reset-min.css" rel="stylesheet" type="text/css" />
 		<link href="default.css" rel="stylesheet" type="text/css" />
