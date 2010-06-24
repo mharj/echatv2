@@ -121,7 +121,10 @@ function pulseengine() {
 							if ( c.ch == c.cid ) {
 								$("#channel_"+myAnchor).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
 							} else {
-								$(cid).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
+								if ( my_self && c.m.toUpperCase().match( my_self.username.toUpperCase() ) )
+									$(cid).append('<b style="color: yellow;">'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> <em style="color:yellow">'+c.m+'</em><br/>');
+								else
+									$(cid).append('<b>'+c.d+' ['+c.a+'] ('+c.c+') '+c.f+'></b> '+c.m+'<br/>');
 								document.title = 'EChat - '+c.d+' #'+c.ch+' '+c.f;
 								if ( ! init && c.ch != myAnchor )	
 									$('#tab_'+c.ch).addClass('activitytab');
