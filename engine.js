@@ -100,6 +100,7 @@ function pulseengine() {
 		type: "POST",
 		url: "pulse.php",
 		data: "i="+idle+"&init="+init+"&ucrc="+user_crc32+"&v="+ver_lock,
+		cache: false,
 		dataType: "json",
 		timeout: 10000,				// 10sec timeout
 		success: function(json) {
